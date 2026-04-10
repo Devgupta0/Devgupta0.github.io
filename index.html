@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devgupta — Developer</title>
+<meta name="description" content="Backend developer building scalable systems, writing about real engineering lessons, and shipping things that work.">
+<meta name="author" content="Devgupta">
+<link rel="canonical" href="https://Devgupta0.github.io">
+<meta property="og:title" content="Devgupta — Developer">
+<meta property="og:description" content="Backend developer building scalable systems and writing about real engineering lessons.">
+<meta property="og:url" content="https://Devgupta0.github.io">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Devgupta — Developer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;
+  --s1:#0f0f0f;
+  --s2:#161616;
+  --text:#efefeb;
+  --muted:#6b6966;
+  --dim:#3a3835;
+  --accent:#f0c93a;
+  --accent2:#3df0c9;
+  --border:#1e1e1e;
+  --ff:'Syne',sans-serif;
+  --fm:'Fira Code',monospace;
+  --fb:'Lato',sans-serif;
+  --max:1080px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);line-height:1.7;overflow-x:hidden}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--dim)}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  padding:1.25rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid transparent;
+  transition:all 0.3s;
+  background:transparent;
+}
+nav.scrolled{background:rgba(8,8,8,0.92);border-bottom-color:var(--border);backdrop-filter:blur(12px)}
+.nav-logo{font-family:var(--fm);font-size:0.9rem;color:var(--accent);text-decoration:none;letter-spacing:0.05em}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;font-family:var(--fm);letter-spacing:0.04em;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+
+/* ── Hero ── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:0 2rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(240,201,58,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(61,240,201,0.03) 0%, transparent 60%);
+}
+.hero-grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:60px 60px;
+  opacity:0.3;
+  mask-image:radial-gradient(ellipse at center, black 20%, transparent 75%);
+}
+.hero-inner{
+  max-width:var(--max);
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+.hero-eyebrow{
+  font-family:var(--fm);
+  font-size:0.78rem;
+  color:var(--accent);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.2s forwards;
+  display:flex;align-items:center;gap:0.75rem;
+}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--accent)}
+.hero-name{
+  font-family:var(--ff);
+  font-size:clamp(4rem,10vw,8.5rem);
+  font-weight:800;
+  line-height:0.9;
+  letter-spacing:-0.03em;
+  margin-bottom:0.5rem;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.3s forwards;
+}
+.hero-name .accent{color:var(--accent);display:block}
+.hero-role{
+  font-family:var(--ff);
+  font-size:clamp(1.2rem,3vw,2rem);
+  font-weight:400;
+  color:var(--muted);
+  margin-bottom:2.5rem;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.4s forwards;
+}
+.hero-desc{
+  max-width:500px;
+  color:var(--muted);
+  font-weight:300;
+  font-size:1rem;
+  line-height:1.9;
+  margin-bottom:3rem;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.5s forwards;
+}
+.hero-cta{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  opacity:0;
+  animation:fadeUp 0.7s ease 0.6s forwards;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.8rem 1.75rem;
+  border-radius:3px;
+  font-size:0.82rem;
+  font-family:var(--fm);
+  font-weight:500;
+  text-decoration:none;
+  letter-spacing:0.04em;
+  transition:all 0.2s;
+  cursor:pointer;border:none;
+}
+.btn-primary{background:var(--accent);color:#080808}
+.btn-primary:hover{background:#f7d660;transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid var(--dim);color:var(--muted)}
+.btn-ghost:hover{border-color:var(--muted);color:var(--text)}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  font-family:var(--fm);font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;
+  text-transform:uppercase;
+  animation:fadeIn 1s ease 1.2s both;
+}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom, var(--muted), transparent);animation:scrollPulse 2s ease infinite}
+
+/* ── Sections ── */
+.section{max-width:var(--max);margin:0 auto;padding:7rem 2rem}
+.section-header{margin-bottom:4rem}
+.section-num{
+  font-family:var(--fm);font-size:0.72rem;
+  color:var(--accent);letter-spacing:0.2em;
+  margin-bottom:0.5rem;display:block;
+}
+.section-title{
+  font-family:var(--ff);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-0.02em;
+}
+.divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg, var(--border) 0%, transparent 100%);
+  margin:0;
+}
+
+/* ── About ── */
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start}
+.about-text p{color:var(--muted);font-weight:300;font-size:1rem;line-height:1.9;margin-bottom:1.25rem}
+.about-text p strong{color:var(--text);font-weight:400}
+.about-aside{display:flex;flex-direction:column;gap:1rem}
+.info-block{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:4px;padding:1.5rem;
+}
+.info-label{font-family:var(--fm);font-size:0.7rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem}
+.info-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.info-list li{font-family:var(--fm);font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:0.6rem}
+.info-list li::before{content:'→';color:var(--accent);font-size:0.7rem}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.stat{background:var(--s1);border:1px solid var(--border);border-radius:4px;padding:1.25rem;text-align:center}
+.stat-n{font-family:var(--ff);font-size:2rem;font-weight:700;color:var(--accent);line-height:1}
+.stat-l{font-family:var(--fm);font-size:0.7rem;color:var(--muted);margin-top:0.25rem;letter-spacing:0.05em}
+
+/* ── Skills ── */
+.skills-categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.skill-category{background:var(--s1);border:1px solid var(--border);border-radius:4px;padding:1.5rem}
+.skill-cat-title{
+  font-family:var(--fm);font-size:0.75rem;color:var(--accent2);
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;
+  padding-bottom:0.75rem;border-bottom:1px solid var(--border);
+}
+.skill-items{display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill-pill{
+  font-family:var(--fm);font-size:0.75rem;
+  padding:4px 12px;border-radius:2px;
+  background:var(--s2);color:var(--muted);
+  border:1px solid var(--border);
+  transition:all 0.15s;
+}
+.skill-pill:hover{border-color:var(--accent2);color:var(--accent2)}
+
+/* ── Projects ── */
+.projects-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.project-item{
+  background:var(--bg);
+  padding:2.5rem 0;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:2.5rem;
+  align-items:start;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.project-item:hover{background:var(--s1)}
+.project-num{font-family:var(--fm);font-size:0.75rem;color:var(--dim);padding-top:0.2rem;min-width:2rem}
+.project-name{font-family:var(--ff);font-size:1.4rem;font-weight:600;margin-bottom:0.5rem;transition:color 0.2s}
+.project-item:hover .project-name{color:var(--accent)}
+.project-desc{color:var(--muted);font-size:0.9rem;font-weight:300;margin-bottom:1rem;line-height:1.7}
+.project-stack{display:flex;flex-wrap:wrap;gap:0.4rem}
+.stack-tag{font-family:var(--fm);font-size:0.7rem;padding:3px 10px;border-radius:2px;background:var(--s2);color:var(--dim);border:1px solid var(--border)}
+.project-links-col{display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;padding-top:0.2rem}
+.project-link{
+  font-family:var(--fm);font-size:0.75rem;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.05em;transition:color 0.2s;
+  white-space:nowrap;
+}
+.project-link:hover{color:var(--accent)}
+
+/* ── Blog ── */
+.blog-list{display:flex;flex-direction:column}
+.blog-entry{
+  display:grid;
+  grid-template-columns:140px 1fr 32px;
+  gap:2rem;
+  align-items:center;
+  padding:1.75rem 0;
+  border-bottom:1px solid var(--border);
+  text-decoration:none;
+  color:inherit;
+  transition:all 0.2s;
+}
+.blog-entry:first-child{border-top:1px solid var(--border)}
+.blog-entry:hover{padding-left:0.5rem}
+.blog-entry-date{font-family:var(--fm);font-size:0.72rem;color:var(--dim)}
+.blog-entry-title{font-family:var(--ff);font-size:1.1rem;font-weight:600;transition:color 0.2s}
+.blog-entry:hover .blog-entry-title{color:var(--accent)}
+.blog-entry-arrow{font-size:1rem;color:var(--dim);transition:all 0.2s;text-align:right}
+.blog-entry:hover .blog-entry-arrow{color:var(--accent);transform:translateX(4px)}
+.blog-cta{
+  margin-top:2.5rem;
+  display:inline-flex;align-items:center;gap:0.75rem;
+  font-family:var(--fm);font-size:0.82rem;
+  color:var(--accent);text-decoration:none;
+  border-bottom:1px solid transparent;
+  padding-bottom:2px;
+  transition:border-color 0.2s;
+}
+.blog-cta:hover{border-bottom-color:var(--accent)}
+
+/* ── Contact ── */
+.contact-inner{max-width:640px}
+.contact-headline{
+  font-family:var(--ff);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-0.02em;
+  margin-bottom:1.5rem;
+}
+.contact-headline .y{color:var(--accent)}
+.contact-sub{color:var(--muted);font-weight:300;font-size:1rem;margin-bottom:2.5rem;line-height:1.8}
+.socials{display:flex;gap:1rem;flex-wrap:wrap}
+.social{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.65rem 1.25rem;
+  border:1px solid var(--border);border-radius:3px;
+  font-family:var(--fm);font-size:0.78rem;
+  color:var(--muted);text-decoration:none;
+  transition:all 0.2s;
+}
+.social:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Footer ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:var(--max);margin:0 auto;
+  font-family:var(--fm);font-size:0.72rem;color:var(--dim);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease, transform 0.7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .about-grid{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:repeat(3,1fr)}
+  .project-item{grid-template-columns:auto 1fr;gap:1rem}
+  .project-links-col{display:none}
+  .blog-entry{grid-template-columns:100px 1fr 24px;gap:1rem}
+  nav .nav-links{gap:1.5rem}
+  .hero-name{font-size:clamp(3rem,12vw,6rem)}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">dg0</a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#blog">blog</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">available for work</div>
+    <h1 class="hero-name">
+      Dev
+      <span class="accent">gupta.</span>
+    </h1>
+    <p class="hero-role">Backend Developer &amp; Systems Thinker</p>
+    <p class="hero-desc">
+      I build backend systems that scale, debug things that shouldn't break, and write honestly about what I learn along the way.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">View my work</a>
+      <a class="btn btn-ghost" href="https://Devgupta0.github.io/dev-blog">Read the blog</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ── -->
+<div id="about">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">01 — about</span>
+      <h2 class="section-title">A bit about me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Hey, I'm <strong>Devgupta</strong> — a backend developer who genuinely enjoys the part of engineering most people skip over: understanding <em>why</em> things work, not just <em>how</em> to make them work.</p>
+        <p>I've spent years building APIs, designing data pipelines, debugging race conditions at 2am, and writing about all of it. I believe the best engineers are the ones who can explain a complex system to a junior dev and to a non-technical founder in the same breath.</p>
+        <p>When I'm not writing code, I'm writing about code — my <strong>AI-powered dev blog</strong> publishes a new technical post every single day, covering real lessons from real production systems.</p>
+        <p>I'm currently <strong>open to backend / fullstack roles</strong> where I can build systems that actually matter.</p>
+      </div>
+      <div class="about-aside">
+        <div class="stat-row">
+          <div class="stat"><div class="stat-n">3+</div><div class="stat-l">yrs exp</div></div>
+          <div class="stat"><div class="stat-n">20+</div><div class="stat-l">projects</div></div>
+          <div class="stat"><div class="stat-n">∞</div><div class="stat-l">blog posts</div></div>
+        </div>
+        <div class="info-block">
+          <div class="info-label">currently working with</div>
+          <ul class="info-list">
+            <li>Python / FastAPI</li>
+            <li>PostgreSQL / Redis</li>
+            <li>Docker / GitHub Actions</li>
+            <li>Three.js / WebGL</li>
+            <li>AI / LLM integrations</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <div class="info-label">interests</div>
+          <ul class="info-list">
+            <li>Distributed systems</li>
+            <li>Developer tooling</li>
+            <li>Creative coding</li>
+            <li>Technical writing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<div id="skills">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">02 — skills</span>
+      <h2 class="section-title">What I work with</h2>
+    </div>
+    <div class="skills-categories">
+      <div class="skill-category">
+        <div class="skill-cat-title">Languages</div>
+        <div class="skill-items">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">TypeScript</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">Bash</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-title">Backend</div>
+        <div class="skill-items">
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Django</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">REST APIs</span>
+          <span class="skill-pill">WebSockets</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-title">Databases</div>
+        <div class="skill-items">
+          <span class="skill-pill">PostgreSQL</span>
+          <span class="skill-pill">Redis</span>
+          <span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">SQLite</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-title">DevOps &amp; Tools</div>
+        <div class="skill-items">
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">GitHub Actions</span>
+          <span class="skill-pill">Linux</span>
+          <span class="skill-pill">Nginx</span>
+          <span class="skill-pill">Git</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-title">Frontend</div>
+        <div class="skill-items">
+          <span class="skill-pill">HTML/CSS</span>
+          <span class="skill-pill">Three.js</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">WebGL</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-title">AI / ML</div>
+        <div class="skill-items">
+          <span class="skill-pill">LLM APIs</span>
+          <span class="skill-pill">Groq</span>
+          <span class="skill-pill">LangChain</span>
+          <span class="skill-pill">Prompt Eng.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<div id="projects">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">03 — projects</span>
+      <h2 class="section-title">Things I've built</h2>
+    </div>
+    <div class="projects-list">
+
+      <div class="project-item">
+        <div class="project-num">01</div>
+        <div>
+          <div class="project-name">GitHub AI Agent</div>
+          <div class="project-desc">An autonomous agent that runs daily via GitHub Actions — generates technical blog posts, DSA solutions, and Three.js 3D demos using Llama 3 via Groq, commits them to 3 public repos, and rebuilds + deploys a full SEO blog site. 100% free, no server needed.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Groq / Llama 3</span>
+            <span class="stack-tag">GitHub Actions</span>
+            <span class="stack-tag">PyGitHub</span>
+            <span class="stack-tag">GitHub Pages</span>
+          </div>
+        </div>
+        <div class="project-links-col">
+          <a class="project-link" href="https://github.com/Devgupta0/github-agent" target="_blank">github →</a>
+          <a class="project-link" href="https://Devgupta0.github.io/dev-blog" target="_blank">live →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">02</div>
+        <div>
+          <div class="project-name">DSA Solutions Vault</div>
+          <div class="project-desc">Daily data structures and algorithm solutions auto-generated and committed by an AI agent. Each solution includes a full explanation, worked examples, Python implementation, and time/space complexity breakdown.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Algorithms</span>
+            <span class="stack-tag">AI Generated</span>
+            <span class="stack-tag">GitHub Actions</span>
+          </div>
+        </div>
+        <div class="project-links-col">
+          <a class="project-link" href="https://github.com/Devgupta0/dsa-solutions" target="_blank">github →</a>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">03</div>
+        <div>
+          <div class="project-name">Three.js Demos Gallery</div>
+          <div class="project-desc">A growing collection of self-contained 3D WebGL experiments — each a single HTML file generated by AI, covering particle systems, procedural geometry, shader effects, and interactive 3D scenes. Open in browser, zero setup.</div>
+          <div class="project-stack">
+            <span class="stack-tag">Three.js</span>
+            <span class="stack-tag">WebGL</span>
+            <span class="stack-tag">JavaScript</span>
+            <span class="stack-tag">Creative Coding</span>
+          </div>
+        </div>
+        <div class="project-links-col">
+          <a class="project-link" href="https://github.com/Devgupta0/threejs-demos" target="_blank">github →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── BLOG ── -->
+<div id="blog">
+  <div class="section reveal">
+    <div class="section-header">
+      <span class="section-num">04 — blog</span>
+      <h2 class="section-title">Dev Notes</h2>
+    </div>
+    <p style="color:var(--muted);font-weight:300;margin-bottom:2.5rem;max-width:540px">
+      I write about real engineering problems, production debugging stories, and system design lessons. A new post every day, generated and published automatically.
+    </p>
+    <div class="blog-list" id="blog-list">
+      <a class="blog-entry" href="https://Devgupta0.github.io/dev-blog">
+        <span class="blog-entry-date">loading...</span>
+        <span class="blog-entry-title">Visit the blog for latest posts</span>
+        <span class="blog-entry-arrow">→</span>
+      </a>
+    </div>
+    <a class="blog-cta" href="https://Devgupta0.github.io/dev-blog">
+      Read all posts →
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ── -->
+<div id="contact">
+  <div class="section reveal">
+    <div class="contact-inner">
+      <span class="section-num">05 — contact</span>
+      <h2 class="contact-headline">Let's build something<br><span class="y">together.</span></h2>
+      <p class="contact-sub">
+        I'm open to backend roles, freelance projects, and interesting collaborations. If you have something worth building, I'd love to hear about it.
+      </p>
+      <div class="socials">
+        <a class="social" href="https://github.com/Devgupta0" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a class="social" href="mailto:devgupta@example.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          Email
+        </a>
+        <a class="social" href="https://linkedin.com/in/devgupta0" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a class="social" href="https://Devgupta0.github.io/dev-blog/feed.xml" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
+          RSS Feed
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider" style="max-width:var(--max);margin:0 auto"></div>
+
+<footer style="max-width:var(--max);margin:0 auto">
+  <span>© 2026 Devgupta</span>
+  <span>Built with GitHub Actions + Llama 3</span>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold: 0.1});
+reveals.forEach(r => observer.observe(r));
+
+// Load latest blog posts from dev-blog RSS
+async function loadBlogPosts() {
+  const list = document.getElementById('blog-list');
+  try {
+    const res = await fetch('https://Devgupta0.github.io/dev-blog/feed.xml');
+    const text = await res.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'text/xml');
+    const items = Array.from(xml.querySelectorAll('item')).slice(0, 5);
+    if (!items.length) return;
+    list.innerHTML = items.map(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      const link  = item.querySelector('link')?.textContent || '#';
+      const date  = item.querySelector('pubDate')?.textContent || '';
+      const d = date ? new Date(date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+      return `<a class="blog-entry" href="${link}">
+        <span class="blog-entry-date">${d}</span>
+        <span class="blog-entry-title">${title}</span>
+        <span class="blog-entry-arrow">→</span>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = `<a class="blog-entry" href="https://Devgupta0.github.io/dev-blog">
+      <span class="blog-entry-date">Daily</span>
+      <span class="blog-entry-title">Visit the blog for latest posts →</span>
+      <span class="blog-entry-arrow">→</span>
+    </a>`;
+  }
+}
+loadBlogPosts();
+</script>
+</body>
+</html>
